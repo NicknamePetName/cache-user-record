@@ -9,6 +9,7 @@ public class Comment {
     private long id;
     private String refId;
     private User author;
+    private long parentId;
     private String content;
     private List<Comment> children;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -38,6 +39,14 @@ public class Comment {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(long parentId) {
+        this.parentId = parentId;
     }
 
     public String getContent() {

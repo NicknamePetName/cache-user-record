@@ -2,6 +2,7 @@ package com.example.demo.control;
 
 import com.example.demo.dao.CommentDAO;
 import com.example.demo.dataobject.CommentDO;
+import com.example.demo.model.Comment;
 import com.example.demo.model.Paging;
 import com.example.demo.model.Result;
 import com.github.pagehelper.Page;
@@ -58,7 +59,7 @@ public class CommentController {
 
     @ResponseBody
     @GetMapping("/comment/findByRefId")
-    public List<CommentDO> findByRefId(@RequestParam String refId) {
+    public List<Comment> findByRefId(@RequestParam String refId) {
         return commentDAO.findByRefId(refId);
     }
 

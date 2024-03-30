@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import com.example.demo.dataobject.CommentDO;
+import com.example.demo.model.Comment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,7 +18,7 @@ public interface CommentDAO {
 
     List<CommentDO> findAll();
 
-    List<CommentDO> findByRefId(@Param("refId") String refId);
+    List<Comment> findByRefId(@Param("refId") String refId);
 
     int batchAdd(@Param("commentDOS") List<CommentDO> commentDOS);
 
