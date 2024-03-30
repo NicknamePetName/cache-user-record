@@ -1,5 +1,7 @@
 package com.example.demo.dataobject;
 
+import com.example.demo.model.User;
+
 import java.time.LocalDateTime;
 
 public class UserDO {
@@ -10,6 +12,23 @@ public class UserDO {
     private String avatar;
     private LocalDateTime gmtCreated;
     private LocalDateTime gmtModified;
+
+    /**
+     * DO 转为 Model
+     *
+     * @return
+     */
+
+    public User toModel() {
+        User user = new User();
+        user.setId(getId());
+        user.setUserName(getUserName());
+        user.setNickName(getNickName());
+        user.setAvatar(getAvatar());
+        user.setGmtCreated(getGmtCreated());
+        user.setGmtModified(getGmtModified());
+        return user;
+    }
 
     public long getId() {
         return id;

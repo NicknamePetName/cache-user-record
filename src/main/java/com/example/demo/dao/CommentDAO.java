@@ -9,7 +9,7 @@ import java.util.List;
 @Mapper
 public interface CommentDAO {
 
-    int add(CommentDO commentDO);
+    int insert(CommentDO commentDO);
 
     int update(CommentDO commentDO);
 

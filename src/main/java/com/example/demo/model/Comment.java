@@ -8,7 +8,7 @@ import java.util.List;
 public class Comment {
     private long id;
     private String refId;
-    private String author;
+    private User author;
     private String content;
     private List<Comment> children;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -32,11 +32,11 @@ public class Comment {
         this.refId = refId;
     }
 
-    public String getAuthor() {
+    public User getAuthor() {
         return author;
     }
 
-    public void setAuthor(String author) {
+    public void setAuthor(User author) {
         this.author = author;
     }
 

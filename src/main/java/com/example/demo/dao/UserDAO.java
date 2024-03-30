@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface UserDAO {
 
-    int add(UserDO userDO);
+    int insert(UserDO userDO);
 
     int update(UserDO userDO);
 

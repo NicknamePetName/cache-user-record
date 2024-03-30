@@ -1,5 +1,8 @@
 package com.example.demo.dataobject;
 
+import com.example.demo.model.Comment;
+import com.example.demo.model.User;
+
 import java.time.LocalDateTime;
 
 public class CommentDO {
@@ -10,6 +13,27 @@ public class CommentDO {
     private long parentId;
     private LocalDateTime gmtCreated;
     private LocalDateTime gmtModified;
+
+    /**
+     * DO 转为 Model
+     *
+     * @return
+     */
+
+    public Comment toModel(){
+        Comment comment = new Comment();
+        comment.setId(getId());
+        comment.setRefId(getRefId());
+        comment.setContent(getContent());
+        comment.setGmtCreated(getGmtCreated());
+        comment.setGmtModified(getGmtModified());
+
+        User user = new User();
+        user.setId(getUserId());
+        comment.setAuthor(user);
+
+        return comment;
+    }
 
     public long getId() {
         return id;

@@ -21,8 +21,8 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/user")
-    public UserDO add(@RequestBody UserDO userDO) {
-        userDAO.add(userDO);
+    public UserDO insert(@RequestBody UserDO userDO) {
+        userDAO.insert(userDO);
         return userDO;
     }
 

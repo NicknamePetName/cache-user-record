@@ -13,7 +13,7 @@
         <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
 
-    <insert id="add" parameterType="com.example.demo.dataobject.UserDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" parameterType="com.example.demo.dataobject.UserDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO user (user_name,pwd,nick_name,avatar,gmt_created,gmt_modified)
         VALUES (#{userName},#{pwd},#{nickName},#{avatar},now(),now())
     </insert>

@@ -20,8 +20,8 @@ public class CommentController {
 
     @ResponseBody
     @PostMapping("/comment")
-    public CommentDO add(@RequestBody CommentDO commentDO) {
-        commentDAO.add(commentDO);
+    public CommentDO insert(@RequestBody CommentDO commentDO) {
+        commentDAO.insert(commentDO);
         return commentDO;
     }
 

@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService {
         userDO1.setUserName(userName);
         userDO1.setNickName(userName);
         userDO1.setPwd(md5Pwd);
-        userDAO.add(userDO1);
+        userDAO.insert(userDO1);
 
         result.setSuccess(true);
 
@@ -59,6 +59,46 @@ public class UserServiceImpl implements UserService {
         user.setNickName(userDO1.getNickName());
 
         result.setData(user);
+
+        return result;
+    }
+
+    @Override
+    public Result<User> login(String userName, String pwd) {
+
+        Result<User> result = new Result<>();
+
+        if (StringUtils.isEmpty(userName)) {
+            result.setCode("600");
+            result.setMessage("用户名不能为空");
+            return result;
+        }
+        if (StringUtils.isEmpty(pwd)) {
+            result.setCode("601");
+            result.setMessage("密码不能为空");
+        }
+
+        UserDO userDO = userDAO.findByUserName(userName);
+
+        if (userDO == null) {
+            result.setCode("602");
+            result.setMessage("用户名不存在");
+            return result;
+        }
+
+        String saltPwd = pwd + "_ykd2050";
+        String md5Pwd = DigestUtils.md5Hex(saltPwd).toUpperCase();
+
+        if (!userDO.getPwd().equals(md5Pwd)) {
+            result.setCode("603");
+            result.setMessage("密码不正确");
+            return result;
+        }
+
+        User user = userDO.toModel();
+
+        result.setData(user);
+        result.setSuccess(true);
 
         return result;
     }

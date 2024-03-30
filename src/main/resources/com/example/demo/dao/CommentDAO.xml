@@ -13,7 +13,7 @@
         <result column="gmt_modified" property="gmtModified"/>
     </resultMap>
 
-    <insert id="add" parameterType="com.example.demo.dataobject.CommentDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+    <insert id="insert" parameterType="com.example.demo.dataobject.CommentDO" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
         INSERT INTO comment (ref_id,user_id,content,parent_id,gmt_created,gmt_modified)
         VALUES (#{refId},#{userId},#{content},#{parentId},now(),now())
     </insert>
