@@ -10,10 +10,8 @@ import org.apache.commons.text.StringEscapeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Component
 public class CommentServiceImpl implements CommentService {
@@ -72,14 +70,21 @@ public class CommentServiceImpl implements CommentService {
                 // 在父评论里添加回复数据
                 parent.getChildren().add(comment);
             } else { // 如果评论没有父评论（即为一级评论），则将其添加到虚拟根节点的 children 列表中
-                if (commentMap.get(0L) != null) {
-                    commentMap.get(0L).getChildren().add(comment); // 假设 0L 是一级评论的标识
+                if (commentMap.get(0L).getChildren() == null) {
+                    commentMap.get(0L).setChildren(new ArrayList<>());
                 }
+                commentMap.get(0L).getChildren().add(comment); // 假设 0L 是一级评论的标识
             }
         });
 
         // 得到所有的一级评论
         List<Comment> data = commentMap.get(0L) != null ? commentMap.get(0L).getChildren() : new ArrayList<>();
+
+        // 排序，按照id进行升序
+        data = data.stream()
+                .sorted((a,b) -> (int)(a.getId() - b.getId()))
+                .collect(Collectors.toList());
+
 
         result.setData(data);
         result.setSuccess(true);
