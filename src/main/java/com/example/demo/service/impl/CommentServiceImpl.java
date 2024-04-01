@@ -77,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
             }
         });
 
-        // 得到所有的一级评论
+        // 得到所有的一级评论,个人觉得三元表达式不必要
         List<Comment> data = commentMap.get(0L) != null ? commentMap.get(0L).getChildren() : new ArrayList<>();
 
         // 排序，按照id进行升序
