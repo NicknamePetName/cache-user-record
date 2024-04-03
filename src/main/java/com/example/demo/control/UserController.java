@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,20 @@ public class UserController {
     private UserDAO userDAO;
     @Autowired
     private RedisTemplate redisTemplate;
+
+
+    @GetMapping("/user/login")
+    public String loginPage(Model model) {
+        return "login";
+    }
+    @GetMapping("/user/reg")
+    public String regPage(Model model) {
+        return "reg";
+    }
+    @GetMapping("/user/info")
+    public String info(Model model){
+        return "info";
+    }
 
     @ResponseBody
     @PostMapping("/user")

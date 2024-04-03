@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/css/login.css" />
+    <title>用户登录</title>
+</head>
+<body>
+
+<div class="main">
+    <div class="title">
+        <span>密码登录</span>
+    </div>
+
+    <div class="title-msg">
+        <span>请输入登录账户和密码</span>
+    </div>
+
+    <form class="login-form" action="/api/user/login" method="post" name="user">
+        <!--输入框-->
+        <div class="input-content">
+            <!--autoFocus-->
+            <div>
+                <input type="text" autocomplete="off"
+                       placeholder="用户名" name="userName" required/>
+            </div>
+
+            <div>
+                <input type="password"
+                       autocomplete="off" placeholder="登录密码" name="pwd" required maxlength="32"/>
+            </div>
+        </div>
+
+        <!--登入按钮-->
+        <div style="text-align: center">
+            <button type="submit" class="enter-btn" >登录</button>
+        </div>
+
+        <div class="foor">
+            <div class="left"><span></span></div>
+
+            <div class="right"><a href="/user/reg">注册账户</a></div>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

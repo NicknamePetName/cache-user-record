@@ -12,6 +12,10 @@ import java.time.Duration;
 @Configuration
 public class CorsConfig {
 
+    /**
+     * Durid 连接池
+     * @return
+     */
     @Bean
     public FilterRegistrationBean corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

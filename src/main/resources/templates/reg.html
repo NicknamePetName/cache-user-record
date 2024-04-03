@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/css/reg.css" />
+    <title>用户注册</title>
+</head>
+<body>
+
+<div class="main">
+    <div class="title">
+        <span>注册账户</span>
+    </div>
+
+    <div class="title-msg" style="display:none">
+        <span></span>
+    </div>
+
+    <form class="login-form" action="/api/user/reg" method="post" name="user">
+        <!--输入框-->
+        <div class="input-content">
+            <div class="infos">
+                <lable>用户名：</lable>
+                <input type="text" autocomplete="off"
+                       placeholder="请输入用户名" name="userName" required/>
+            </div>
+
+            <div class="infos">
+                <lable>密　码：</lable>
+                <input type="password"
+                       autocomplete="off" placeholder="请输入登录密码" name="pwd" required maxlength="32"/>
+            </div>
+
+            <div style="display:none" class="infos">
+                <lable>昵　称：</lable>
+                <input type="nickName"
+                       autocomplete="off" placeholder="请输入昵称" name="nickName" required maxlength="32"
+                       disabled="disabled" />
+            </div>
+
+            <div style="display:none" class="infos">
+                <lable>头　像：</lable>
+                <input type="avatar"
+                       autocomplete="off" placeholder="请输入头像网址" name="avatar" required maxlength="256"
+                       value="http://style.youkeda.com/img/ham/course/d2/avatar.jpeg"
+                       disabled="disabled" />
+
+                <img src="http://style.youkeda.com/img/ham/course/d2/avatar.jpeg" />
+            </div>
+        </div>
+
+        <!--登入按钮-->
+        <div style="text-align: center">
+            <button type="submit" class="enter-btn" >注册</button>
+        </div>
+
+        <div class="foor">
+            <div class="left"><span></span></div>
+
+            <div class="right"><a href="/user/login">登录</a></div>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

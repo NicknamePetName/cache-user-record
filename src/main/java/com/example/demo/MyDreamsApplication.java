@@ -11,6 +11,10 @@ import javax.sql.DataSource;
 @SpringBootApplication
 public class MyDreamsApplication {
 
+    /**
+     * Druid 连接池启动
+     * @param args
+     */
     public static void main(String[] args) {
         SpringApplication.run(MyDreamsApplication.class, args);
     }
