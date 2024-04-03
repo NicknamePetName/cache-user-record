@@ -3,9 +3,10 @@ package com.example.demo.dataobject;
 import com.example.demo.model.Comment;
 import com.example.demo.model.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class CommentDO {
+public class CommentDO implements Serializable {
     private long id;
     private String refId;
     private long userId;

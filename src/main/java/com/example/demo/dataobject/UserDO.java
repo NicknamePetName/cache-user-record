@@ -2,9 +2,10 @@ package com.example.demo.dataobject;
 
 import com.example.demo.model.User;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class UserDO {
+public class UserDO implements Serializable {
     private long id;
     private String userName;
     private String pwd;

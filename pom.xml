@@ -19,8 +19,8 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba</groupId>
-			<artifactId>druid-spring-boot-starter</artifactId>
-			<version>1.1.23</version>
+			<artifactId>druid-spring-boot-3-starter</artifactId>
+			<version>1.2.18</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
@@ -66,6 +66,10 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-text</artifactId>
 			<version>1.11.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
 		</dependency>
 
 	</dependencies>

@@ -34,7 +34,7 @@ public class CommentServiceImpl implements CommentService {
         commentDO.setId(userId);
         commentDO.setRefId(refId);
         commentDO.setParentId(parentId);
-        commentDO.setContent(content);
+        commentDO.setContent(body);
         commentDAO.insert(commentDO);
 
         result.setData(commentDO.toModel());

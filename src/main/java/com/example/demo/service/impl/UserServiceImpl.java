@@ -8,6 +8,7 @@ import com.example.demo.service.UserService;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,6 +16,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Override
     public Result<User> register(String userName, String pwd) {
 
@@ -31,7 +35,12 @@ public class UserServiceImpl implements UserService {
             return result;
         }
 
-        UserDO userDO = userDAO.findByUserName(userName);
+
+        // 使用 redis 优化查询
+        UserDO userDO = (UserDO) redisTemplate.opsForValue().get(userName);
+        if (userDO == null) {
+            userDO = userDAO.findByUserName(userName);
+        }
 
         if (userDO != null) {
             result.setCode("602");
@@ -51,14 +60,14 @@ public class UserServiceImpl implements UserService {
         userDO1.setPwd(md5Pwd);
         userDAO.insert(userDO1);
 
+
+        User user = userDO1.toModel();
+        result.setData(user);
+
         result.setSuccess(true);
 
-        User user = new User();
-        user.setId(userDO1.getId());
-        user.setUserName(userDO1.getUserName());
-        user.setNickName(userDO1.getNickName());
-
-        result.setData(user);
+        // 新用户注册成功后，存入缓存
+        redisTemplate.opsForValue().set(userName, userDO1);
 
         return result;
     }
@@ -78,7 +87,12 @@ public class UserServiceImpl implements UserService {
             result.setMessage("密码不能为空");
         }
 
-        UserDO userDO = userDAO.findByUserName(userName);
+
+        // 使用 redis 优化查询
+        UserDO userDO = (UserDO) redisTemplate.opsForValue().get(userName);
+        if (userDO == null) {
+            userDO = userDAO.findByUserName(userName);
+        }
 
         if (userDO == null) {
             result.setCode("602");
