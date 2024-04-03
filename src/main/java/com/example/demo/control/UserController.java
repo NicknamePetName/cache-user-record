@@ -6,30 +6,45 @@ import com.example.demo.dataobject.UserDO;
 import com.example.demo.model.Result;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class UserController {
     @Autowired
     private UserDAO userDAO;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     @ResponseBody
     @PostMapping("/user")
     public UserDO insert(@RequestBody UserDO userDO) {
+        if (userDO == null) {
+            return null;
+        }
         userDAO.insert(userDO);
+        redisTemplate.opsForValue().set(userDO.getUserName(), userDO);
         return userDO;
     }
 
     @ResponseBody
     @PostMapping("/user/update")
     public UserDO update(@RequestBody UserDO userDO) {
+        if (userDO == null) {
+            return null;
+        }
+
         userDAO.update(userDO);
+        redisTemplate.opsForValue().set(userDO.getUserName(), userDO);
         return userDO;
     }
 
@@ -37,6 +52,18 @@ public class UserController {
     @ResponseBody
     @GetMapping("/user/del")
     public boolean delete(@RequestParam Long id) {
+        if (id == null || id < 0) {
+            return false;
+        }
+
+        List<Long> ids = new ArrayList<>();
+        ids.add(id);
+        List<UserDO> users = findByIds(ids);
+        if (!CollectionUtils.isEmpty(users)) {
+            UserDO userDO = users.get(0);
+            redisTemplate.delete(userDO.getUserName());
+        }
+
         return userDAO.delete(id) > 0;
     }
 
@@ -53,12 +80,26 @@ public class UserController {
     @ResponseBody
     @GetMapping("/user/findByUserName")
     public UserDO findByUserName(@RequestParam String userName) {
-        return userDAO.findByUserName(userName);
+
+        if (StringUtils.isBlank(userName)) {
+            return null;
+        }
+
+        UserDO userDO =(UserDO) redisTemplate.opsForValue().get(userName);
+        if (userDO == null) {
+            userDO = userDAO.findByUserName(userName);
+        }
+        return userDO;
     }
 
     @ResponseBody
     @GetMapping("/user/query")
     public List<UserDO> query(@RequestParam String keyWord) {
+
+        if (StringUtils.isBlank(keyWord)) {
+            return null;
+        }
+
         return userDAO.query(keyWord);
     }
 
@@ -76,13 +117,20 @@ public class UserController {
     @ResponseBody
     @PostMapping("/user/batchAdd")
     public List<UserDO> batchAdd(@RequestBody List<UserDO> userDOS) {
+        if (CollectionUtils.isEmpty(userDOS)) {
+            return null;
+        }
         userDAO.batchAdd(userDOS);
+        userDOS.forEach(userDO -> redisTemplate.opsForValue().set(userDO.getUserName(), userDO));
         return userDOS;
     }
 
     @ResponseBody
     @GetMapping("/user/findByIds")
     public List<UserDO> findByIds(@RequestParam List<Long> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return null;
+        }
         return userDAO.findByIds(ids);
     }
 
