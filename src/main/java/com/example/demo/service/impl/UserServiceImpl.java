@@ -9,11 +9,13 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-@Component
+// @Component 是一个通用的注解，用于标记任何类型的组件，@Service 是一个特殊的 @Component，他俩可以互用。
+// 自动装配：当你使用 @Service 注解时，Spring 会认为这个类是一个服务层组件，并且可能会根据你的配置自动装配所需的依赖。而 @Component 则需要你明确地声明或通过扫描来识别
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
