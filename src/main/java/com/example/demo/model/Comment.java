@@ -2,10 +2,11 @@ package com.example.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Comment {
+public class Comment implements Serializable {
     private long id;
     private String refId;
     private User author;

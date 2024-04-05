@@ -11,7 +11,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * 用户信息拦截器
+ * 用户信息拦截器 —— 与 AppConfigurer 配合
+ *
+ * @author 亦-Nickname
  */
 @Component
 public class UserInterceptor implements HandlerInterceptor {
@@ -21,6 +23,11 @@ public class UserInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         HttpSession session = request.getSession();
+
+        // 打印时间 springMVC 连接器 节
+        long startTime = System.currentTimeMillis();
+        request.setAttribute("startTime", startTime);
+
         if (session.getAttribute("userLoginInfo") != null) {
             return true;
         }
@@ -34,6 +41,11 @@ public class UserInterceptor implements HandlerInterceptor {
     //Controller方法执行之后
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        long startTime = (Long) request.getAttribute("startTime");
+        long endTime = System.currentTimeMillis();
+        long executeTime = endTime - startTime;
+
+        LOGGER.info("CostTime : " + executeTime + " ms");
 
     }
 

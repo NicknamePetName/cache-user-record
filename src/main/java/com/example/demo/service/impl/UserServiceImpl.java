@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.TimeUnit;
+
 @Component
 public class UserServiceImpl implements UserService {
 
@@ -60,14 +62,15 @@ public class UserServiceImpl implements UserService {
         userDO1.setPwd(md5Pwd);
         userDAO.insert(userDO1);
 
+        // 新用户注册成功后，存入缓存
+        redisTemplate.opsForValue().set(userName, userDO1);
+
 
         User user = userDO1.toModel();
         result.setData(user);
 
         result.setSuccess(true);
 
-        // 新用户注册成功后，存入缓存
-        redisTemplate.opsForValue().set(userName, userDO1);
 
         return result;
     }
@@ -92,9 +95,15 @@ public class UserServiceImpl implements UserService {
         UserDO userDO = (UserDO) redisTemplate.opsForValue().get(userName);
         if (userDO == null) {
             userDO = userDAO.findByUserName(userName);
+            if (userDO == null) {
+                redisTemplate.opsForValue().set(userName, new UserDO(), 5, TimeUnit.MINUTES);
+            }else {
+                // redis 反序列化，时间类型不支持
+                redisTemplate.opsForValue().set(userName, userDO);
+            }
         }
 
-        if (userDO == null) {
+        if (userDO == null || userDO.getId() < 1) {
             result.setCode("602");
             result.setMessage("用户名不存在");
             return result;

@@ -18,7 +18,7 @@ public class CommentDO implements Serializable {
     /**
      * DO 转为 Model
      *
-     * @return
+     * @return Comment
      */
 
     public Comment toModel(){
