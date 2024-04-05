@@ -15,7 +15,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  * @author 亦-Nickname
  */
 @Configuration
-public class RedisVisualConfig {
+public class RedisTemplateConfig {
 
     @Autowired
     private RedisTemplate redisTemplate;
