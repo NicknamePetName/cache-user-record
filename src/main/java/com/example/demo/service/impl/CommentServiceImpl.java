@@ -58,22 +58,37 @@ public class CommentServiceImpl implements CommentService {
         comments.forEach(comment -> commentMap.put(comment.getId(), comment));
 
 
+//        // 再次遍历评论数据
+//        comments.forEach(comment -> {
+//            //得到父评论的 ID
+//            Comment parent = commentMap.get(comment.getParentId());
+//            if (parent != null) {
+//                // 如果父评论存在，并且它的 children 列表尚未初始化
+//                if (parent.getChildren() == null) {
+//                    parent.setChildren(new ArrayList<>());
+//                }
+//                // 在父评论里添加回复数据
+//                parent.getChildren().add(comment);
+//            } else { // 如果评论没有父评论（即为一级评论），则将其添加到虚拟根节点的 children 列表中
+//                if (commentMap.get(0L).getChildren() == null) {
+//                    commentMap.get(0L).setChildren(new ArrayList<>());
+//                }
+//                commentMap.get(0L).getChildren().add(comment); // 假设 0L 是一级评论的标识
+//            }
+//        });
+
+
         // 再次遍历评论数据
         comments.forEach(comment -> {
-            //得到父评论的 ID
+            //得到父评论
             Comment parent = commentMap.get(comment.getParentId());
             if (parent != null) {
-                // 如果父评论存在，并且它的 children 列表尚未初始化
+                // 初始化 children 变量
                 if (parent.getChildren() == null) {
                     parent.setChildren(new ArrayList<>());
                 }
                 // 在父评论里添加回复数据
                 parent.getChildren().add(comment);
-            } else { // 如果评论没有父评论（即为一级评论），则将其添加到虚拟根节点的 children 列表中
-                if (commentMap.get(0L).getChildren() == null) {
-                    commentMap.get(0L).setChildren(new ArrayList<>());
-                }
-                commentMap.get(0L).getChildren().add(comment); // 假设 0L 是一级评论的标识
             }
         });
 
