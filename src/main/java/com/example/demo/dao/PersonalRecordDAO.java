@@ -1,11 +1,12 @@
 package com.example.demo.dao;
 
 import com.example.demo.dataobject.PersonalRecordDO;
-import com.example.demo.model.PersonalRecord;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+@Mapper
 public interface PersonalRecordDAO {
     int insert(PersonalRecordDO personalRecordDO);
 
@@ -15,6 +16,6 @@ public interface PersonalRecordDAO {
 
     List<PersonalRecordDO> findAll();
 
-    PersonalRecord findByUserId(@Param("userId") Long userId);
+    PersonalRecordDO findByUserId(@Param("userId") Long userId);
 
 }

@@ -91,7 +91,6 @@ public class CommentController {
         if (StringUtils.isBlank(refId)) {
             return null;
         }
-
         return commentDAO.findByRefId(refId);
     }
 

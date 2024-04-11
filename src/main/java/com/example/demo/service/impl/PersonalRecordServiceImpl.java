@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class PersonalRecordServiceImpl implements PersonalRecordService {
-    private static final String KEY = "integralRankLocal";
 
     @Autowired
     private RedisTemplate redisTemplate;

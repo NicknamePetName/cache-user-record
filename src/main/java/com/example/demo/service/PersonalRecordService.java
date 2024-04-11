@@ -6,6 +6,7 @@ import com.example.demo.model.PersonalRecord;
 import java.util.List;
 
 public interface PersonalRecordService {
+    String KEY = "integralRankLocal";
     /**
      * 添加或者修改个人战绩
      *
