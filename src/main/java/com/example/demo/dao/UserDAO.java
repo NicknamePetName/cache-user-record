@@ -30,4 +30,6 @@ public interface UserDAO {
     int batchAdd(@Param("userDOS") List<UserDO> userDOS);
 
     List<UserDO> findByIds(@Param("ids") List<Long> ids);
+
+    UserDO findById(@Param("id") Long id);
 }

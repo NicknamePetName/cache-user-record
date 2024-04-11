@@ -83,4 +83,8 @@
         </where>
     </select>
 
+    <select id="findById" resultMap="userResultMap">
+        SELECT * FROM user WHERE id=#{id}
+    </select>
+
 </mapper>

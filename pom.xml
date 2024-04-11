@@ -20,8 +20,18 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>2.0.32</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
 			<artifactId>druid-spring-boot-3-starter</artifactId>
 			<version>1.2.18</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.13.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
@@ -80,7 +90,7 @@
 		<dependency>
 			<groupId>org.redisson</groupId>
 			<artifactId>redisson-spring-boot-starter</artifactId>
-			<version>3.13.0</version>
+			<version>3.27.0</version>
 		</dependency>
 		<!-- spring-thymeleaf 支持 -->
 		<dependency>

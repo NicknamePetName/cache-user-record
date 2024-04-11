@@ -18,6 +18,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentDAO commentDAO;
+
     @Override
     public Result<Comment> post(String refId, long userId, long parentId, String content) {
         Result<Comment> result = new Result<>();

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.concurrent.TimeUnit;
 
 // @Component 是一个通用的注解，用于标记任何类型的组件，@Service 是一个特殊的 @Component，他俩可以互用。
@@ -41,12 +42,13 @@ public class UserServiceImpl implements UserService {
 
 
         // 使用 redis 优化查询
-        UserDO userDO = (UserDO) redisTemplate.opsForValue().get(userName);
+        UserDO userDO = (UserDO) redisTemplate.opsForHash().get(KEY, userName);
         if (userDO == null) {
             userDO = userDAO.findByUserName(userName);
         }
 
-        if (userDO != null) {
+        if (userDO != null && userDO.getUserName() != null && userDO.getId() > 0) {
+            redisTemplate.opsForHash().put(KEY, userName,userDO);
             result.setCode("602");
             result.setMessage("用户名已存在");
             return result;
@@ -65,10 +67,10 @@ public class UserServiceImpl implements UserService {
         userDAO.insert(userDO1);
 
         // 新用户注册成功后，存入缓存
-        redisTemplate.opsForValue().set(userName, userDO1);
-
+        redisTemplate.opsForHash().put(KEY, userName, userDO1);
 
         User user = userDO1.toModel();
+
         result.setData(user);
 
         result.setSuccess(true);
@@ -94,14 +96,14 @@ public class UserServiceImpl implements UserService {
 
 
         // 使用 redis 优化查询
-        UserDO userDO = (UserDO) redisTemplate.opsForValue().get(userName);
+        UserDO userDO = (UserDO) redisTemplate.opsForHash().get(KEY, userName);
         if (userDO == null) {
             userDO = userDAO.findByUserName(userName);
             if (userDO == null) {
-                redisTemplate.opsForValue().set(userName, new UserDO(), 5, TimeUnit.MINUTES);
+                redisTemplate.opsForHash().put(KEY, userName, new UserDO());
             }else {
                 // redis 反序列化，时间类型不支持
-                redisTemplate.opsForValue().set(userName, userDO);
+                redisTemplate.opsForHash().put(KEY, userName, userDO);
             }
         }
 
@@ -122,11 +124,30 @@ public class UserServiceImpl implements UserService {
             return result;
         }
 
-        User user = userDO.toModel();
+        // 新用户登录成功后，存入缓存
+        // 这一行不必要，在 “使用 redis 优化查询” (107行) 这里已经将userName用户存入缓存了
+        // redisTemplate.opsForHash().put(KEY, userName, userDO);
 
+        User user = userDO.toModel();
         result.setData(user);
         result.setSuccess(true);
 
         return result;
+    }
+
+    @Override
+    public User findById(Long id) {
+
+        UserDO userDO = (UserDO) redisTemplate.opsForHash().get(KEY_USER, id);
+
+        if (userDO == null) {
+            userDO = userDAO.findById(id);
+            if (userDO == null) {
+                redisTemplate.opsForHash().put(KEY_USER, id, new UserDO());
+            }else {
+                redisTemplate.opsForHash().put(KEY_USER, id, userDO);
+            }
+        }
+        return userDO.toModel();
     }
 }

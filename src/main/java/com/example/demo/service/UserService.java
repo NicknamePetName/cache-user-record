@@ -4,6 +4,9 @@ import com.example.demo.model.Result;
 import com.example.demo.model.User;
 
 public interface UserService {
+
+    String KEY = "integralRankUserLocal";
+    String KEY_USER = "integralRankUserModelLocal";
     /**
      * 注册用户
      *
@@ -24,4 +27,12 @@ public interface UserService {
      */
 
     public Result<User> login(String userName, String pwd);
+
+    /**
+     * 根据 id 查询用户模型实例
+     *
+     * @param id
+     * @return
+     */
+    public User findById(Long id);
 }
