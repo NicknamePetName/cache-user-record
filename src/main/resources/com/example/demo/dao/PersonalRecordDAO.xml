@@ -4,5 +4,6 @@
 <mapper namespace="com.example.demo.dao.PersonalRecordDAO">
     <resultMap id="personalRecordResultMap" type="com.example.demo.dataobject.PersonalRecordDO">
         <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
     </resultMap>
 </mapper>
